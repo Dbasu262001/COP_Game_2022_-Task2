@@ -25,7 +25,7 @@ class Dog{
 
 
     Dog_MoveDirections Get_Direction();
-    void Set_Dog_Nextdirection();
+    void Set_Dog_Nextdirection(SDL_Event* e);
 
     SDL_Point Dog_Curr_Position;
     SDL_Point Dog_Next_Position;
@@ -33,6 +33,8 @@ class Dog{
 
 
   private:
+  long int Random_Dir=1;
+  SDL_Rect Dog_Collider_attribute;
   Texture* Dog_Texture;
    int arr_D[45][78]={
                         {1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},

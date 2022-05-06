@@ -1,10 +1,12 @@
 #include "Dog.h"
+
 Dog::Dog(){
     direction=Dog_Stay_Still;
 }
 
 Dog::Dog(Texture* texture){
     Dog_Texture=texture;
+    Dog_Collider_attribute={-1,-1,20,20};
 }
 
 Texture* Dog::Get_Dog_Texture(){
@@ -12,14 +14,12 @@ Texture* Dog::Get_Dog_Texture(){
 } 
 
 
-SDL_Rect Dog::Dog_Collider(){ //To be edited
-    SDL_Rect temp={0,0,0,0};
-    return temp;
+SDL_Rect Dog::Dog_Collider(){ 
+    return Dog_Collider_attribute;
 }
 
 void Dog::Dog_Update(SDL_Renderer* renderer){
-Set_Dog_Nextdirection();
-Dog_Pos_Update_helper(direction);
+Dog_Pos_Update_helper(this->direction);
 Update_Dog_Pos();
 Render(renderer,Dog_Curr_Position.x,Dog_Curr_Position.y,Dog_Texture);
 
@@ -28,6 +28,8 @@ Render(renderer,Dog_Curr_Position.x,Dog_Curr_Position.y,Dog_Texture);
 void Dog::Set_Dog_Curr_Position(int x,int y){
         Dog_Curr_Position.x=x;
         Dog_Curr_Position.y=y;
+        Dog_Collider_attribute.x=Dog_Curr_Position.x;
+        Dog_Collider_attribute.y=Dog_Curr_Position.y;
 }
 
 void Dog::Set_Dog_Next_Position(int x,int y){
@@ -60,6 +62,7 @@ void Dog::Dog_Pos_Update_helper(Dog_MoveDirections direction){
 }
 
 void Dog::Update_Dog_Pos(){
+    Dog_Pos_Update_helper(this->direction);
     if(Dog_Next_Position.x < 0 || Dog_Next_Position.y < 0 || Dog_Next_Position.x>1541 || Dog_Next_Position.y > 881){
         Dog_Next_Position.x=Dog_Curr_Position.x;
         Dog_Next_Position.y=Dog_Curr_Position.y;
@@ -83,27 +86,32 @@ void Dog::Update_Dog_Pos(){
         direction = Dog_Stay_Still;
         }
     }
+    direction=Dog_Stay_Still;
+    Dog_Collider_attribute.x=Dog_Curr_Position.x;
+    Dog_Collider_attribute.y=Dog_Curr_Position.y;
 }
+
+
+
 
 Dog_MoveDirections Dog::Get_Direction(){
-    return direction;
+    return this->direction;
 }
 
 
-void Dog::Set_Dog_Nextdirection(){
-    int Random_Dir=rand() % 5;
-    Random_Dir=Random_Dir+1;
-    if(Random_Dir==1){
-        direction=Dog_Move_Left;
-
-    }else if(Random_Dir==2){
-        direction=Dog_Move_Up;
-    }else if(Random_Dir==3){
-        direction=Dog_Move_Right;
-    }else if(Random_Dir==4){
-        direction=Dog_Move_Down;
-    }else{
-       direction=Dog_Stay_Still;
+void Dog::Set_Dog_Nextdirection(SDL_Event* event){
+    
+if(event->type==SDL_KEYDOWN){
+        if(event->key.keysym.sym==SDLK_UP){           
+            direction=Dog_Move_Down;
+        }else if(event->key.keysym.sym==SDLK_DOWN){
+           direction=Dog_Move_Left;
+        }else if(event->key.keysym.sym==SDLK_RIGHT){
+            direction=Dog_Move_Up;
+        }else if(event->key.keysym.sym==SDLK_LEFT){
+            direction=Dog_Move_Right;
+        }
+    
     }
 }
 void Dog::Render(SDL_Renderer* renderer,int x,int y,Texture* temp){
