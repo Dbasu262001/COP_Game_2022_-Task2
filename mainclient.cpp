@@ -109,7 +109,7 @@ G1->P2->Render(G1->renderer,xpos,ypos,G1->P2->Player_Texture);
 
 					
                        if(e.type==SDL_KEYDOWN && G1->P1!=NULL){
-						    G1->D1->Set_Dog_Nextdirection(&e);
+						    G1->D1->Set_Dog_Nextdirection_A(&e);
 							if(G1->P1!=NULL){
 								G1->P1->Player_Events(&e);
 						

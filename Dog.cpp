@@ -99,7 +99,7 @@ Dog_MoveDirections Dog::Get_Direction(){
 }
 
 
-void Dog::Set_Dog_Nextdirection(SDL_Event* event){
+void Dog::Set_Dog_Nextdirection_A(SDL_Event* event){
     
 if(event->type==SDL_KEYDOWN){
         if(event->key.keysym.sym==SDLK_UP){           
@@ -114,6 +114,58 @@ if(event->type==SDL_KEYDOWN){
     
     }
 }
+
+void Dog::Set_Dog_Nextdirection_B(SDL_Event* event){
+    
+if(event->type==SDL_KEYDOWN){
+        if(event->key.keysym.sym==SDLK_RIGHT){           
+            direction=Dog_Move_Down;
+        }else if(event->key.keysym.sym==SDLK_DOWN){
+           direction=Dog_Move_Left;
+        }else if(event->key.keysym.sym==SDLK_UP){
+            direction=Dog_Move_Up;
+        }else if(event->key.keysym.sym==SDLK_LEFT){
+            direction=Dog_Move_Right;
+        }
+    
+    }
+}
+
+
+
+void Dog::Set_Dog_Nextdirection_C(SDL_Event* event){
+    
+if(event->type==SDL_KEYDOWN){
+        if(event->key.keysym.sym==SDLK_UP){           
+            direction=Dog_Move_Down;
+        }else if(event->key.keysym.sym==SDLK_LEFT){
+           direction=Dog_Move_Left;
+        }else if(event->key.keysym.sym==SDLK_RIGHT){
+            direction=Dog_Move_Up;
+        }else if(event->key.keysym.sym==SDLK_DOWN){
+            direction=Dog_Move_Right;
+        }
+    
+    }
+}
+
+void Dog::Set_Dog_Nextdirection_D(SDL_Event* event){
+    
+if(event->type==SDL_KEYDOWN){
+        if(event->key.keysym.sym==SDLK_UP){           
+            direction=Dog_Move_Down;
+        }else if(event->key.keysym.sym==SDLK_RIGHT){
+           direction=Dog_Move_Left;
+        }else if(event->key.keysym.sym==SDLK_DOWN){
+            direction=Dog_Move_Up;
+        }else if(event->key.keysym.sym==SDLK_LEFT){
+            direction=Dog_Move_Right;
+        }
+    
+    }
+}
+
+
 void Dog::Render(SDL_Renderer* renderer,int x,int y,Texture* temp){
     SDL_Rect src_Rect={0,0,20,20};
     temp->Render(x,y,&src_Rect,0,NULL,SDL_FLIP_NONE,renderer);

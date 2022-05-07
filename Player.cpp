@@ -40,6 +40,7 @@ void Player::Player_Cycle_Update(){
         }else if(Player_has_cycle==false && arr_P[Player_Curr_POsition.y/20][Player_Curr_POsition.x/20]==9){
             if(distance==0 && calm>15){
             Player_has_cycle=true;
+            Player_Score = Player_Score - 50;
             speed=10;
             player_check=10;
             calm =0;
@@ -88,6 +89,7 @@ void Player::Update(MoveDirections direction){
 void Player::Player_Collides(){
     if(collide_distance > 50){
     Player_Health_Points = Player_Health_Points - 400;
+    collide_distance =0;
     }
 }
 
@@ -116,13 +118,13 @@ void Player::Update_Position(){
             if(val2==6){                    // In Academic
                 Player_Score=Player_Score + 5;
                 Player_Health_Points = Player_Health_Points - 5;
-            }else if(val2==8 && distance_after_food > 20  ){       // in food shops
+            }else if(val2==8 && distance_after_food > 25  ){       // in food shops
                 Player_Health_Points=Player_Health_Points + 50;
-                Player_Score=Player_Score-10;
+                Player_Score=Player_Score - 18;
                 distance_after_food=-5;
             }else if(val2 ==2 && distance_after_Hospital > 100){            //Hospital entry
                 Player_Health_Points=Player_Health_Points + 300;
-                Player_Score=Player_Score-20;
+                Player_Score=Player_Score - 40;
                 distance_after_Hospital=0;
 
             }else if(val2==5){                                          //Ground
@@ -168,6 +170,9 @@ void Player::Update_Position(){
             }
             direction = Stay_Still;
 
+            if(collide_distance < 100){
+                collide_distance =collide_distance + 5 ;
+            }
         }
         direction=Stay_Still;
     }

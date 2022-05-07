@@ -24,6 +24,7 @@ class Game{
     Dog* D1=NULL;
     Dog* D3=NULL;
     Dog* D4=NULL;
+    Dog* D5=NULL;
     private:
     bool isrunning;
 };
