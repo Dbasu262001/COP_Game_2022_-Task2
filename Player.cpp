@@ -2,11 +2,26 @@
 
 Player::Player(){
 direction=Stay_Still;
+Player_Score=50;
+Player_Health_Points=2000;
+distance_after_food = 40;
+distance_after_Hospital = 160;
+distance_from_market=100;
+collide_distance=100;
+spceial_distance_ground =100;
+special_distance_academic=100;
 }
 Player::Player( Texture* texture){
 Player_Texture=texture;
 direction=Stay_Still;
-
+Player_Score=50;
+distance_after_food = 40;
+distance_after_Hospital = 160;
+Player_Health_Points=2000;
+distance_from_market=100;
+collide_distance=100;
+spceial_distance_ground =100;
+special_distance_academic=100;
 }
 
 
@@ -70,6 +85,12 @@ void Player::Update(MoveDirections direction){
        }
 }
 
+void Player::Player_Collides(){
+    if(collide_distance > 50){
+    Player_Health_Points = Player_Health_Points - 400;
+    }
+}
+
 void Player::Update_Position(){
     Update(direction);
     if(Player_Next_Position.x < 0 || Player_Next_Position.y <0 || Player_Next_Position.x > 1541 || Player_Next_Position.y >881 ){
@@ -82,7 +103,7 @@ void Player::Update_Position(){
         int a_left=Player_Next_Position.x/20;
         int a_right=Player_Next_Position.y/20;
         int val =arr_P[b_right][b_left];
-        int val2=arr_P[a_right][a_left];
+        int val2=arr_P[a_right][a_left];///
         int val3=arr_P[a_right][b_left];
         int val4=arr_P[b_right][a_left];
         if(val==1 || val2==1 || val3==1 || val4==1){
@@ -92,6 +113,59 @@ void Player::Update_Position(){
         }else if(direction!=Stay_Still){
             Player_Curr_POsition.x=Player_Next_Position.x;
             Player_Curr_POsition.y=Player_Next_Position.y;
+            if(val2==6){                    // In Academic
+                Player_Score=Player_Score + 5;
+                Player_Health_Points = Player_Health_Points - 5;
+            }else if(val2==8 && distance_after_food > 20  ){       // in food shops
+                Player_Health_Points=Player_Health_Points + 50;
+                Player_Score=Player_Score-10;
+                distance_after_food=-5;
+            }else if(val2 ==2 && distance_after_Hospital > 100){            //Hospital entry
+                Player_Health_Points=Player_Health_Points + 300;
+                Player_Score=Player_Score-20;
+                distance_after_Hospital=0;
+
+            }else if(val2==5){                                          //Ground
+                Player_Health_Points=Player_Health_Points-7;
+                Player_Score= Player_Score + 10;
+            }else if(val2==7 && distance_from_market > 50){                 //Market
+                Player_Health_Points=Player_Health_Points+3;
+                Player_Score=Player_Score - 10;
+                distance_from_market = 0 ;
+            }else if(val2==3){
+                Player_Health_Points= Player_Health_Points + 3;
+                Player_Score=Player_Score-1;
+            } else if(val2 == 7   && special_distance_academic > 50){ // Special point int academic
+                Player_Score=Player_Score + 40;
+                Player_Health_Points = Player_Health_Points - 5;
+                special_distance_academic =0;
+            }else if(val2==10 && spceial_distance_ground > 50){ // Special point in playground
+                Player_Health_Points=Player_Health_Points-7;
+                Player_Score= Player_Score + 60;
+                spceial_distance_ground=0;
+            } else{
+                Player_Health_Points=Player_Health_Points-1;
+            }
+
+
+
+
+            if(distance_after_Hospital < 200){
+            distance_after_Hospital=distance_after_Hospital+5;
+            }
+            if(distance_after_food < 50){
+            distance_after_food = distance_after_food + 5;
+            }
+            if(distance_from_market < 150){
+                distance_from_market =distance_from_market + 5;
+            }
+            if(special_distance_academic < 100){
+                special_distance_academic = special_distance_academic + 5;
+            }
+
+            if(spceial_distance_ground < 100){
+                spceial_distance_ground = spceial_distance_ground + 5;
+            }
             direction = Stay_Still;
 
         }
@@ -110,12 +184,12 @@ void Player::set_Curr_Pos(int x,int y){
     Player_Curr_POsition.y=y;
     Player_collider={Player_Curr_POsition.x,Player_Curr_POsition.y,20,20};
 }
-void Player::Player_Score_Update(int x){
-    this->score=this->score+x;
+void Player::Player_Score_Update(long int x){
+    Player_Score=Player_Score +x;
 
     }
-int Player::Get_Player_Score(){
-    return this->score;
+long int Player::Get_Player_Score(){
+    return this->Player_Score;
 }
 
 SDL_Rect Player::Collider(){

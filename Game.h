@@ -19,7 +19,10 @@ class Game{
     void Store_All_Tiles();
     bool Generate_Map();
     Player* P1=NULL;
+    Dog* D2=NULL;
     Dog* D1=NULL;
+    Dog* D3=NULL;
+    Dog* D4=NULL;
     private:
     bool isrunning;
 };

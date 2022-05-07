@@ -22,13 +22,13 @@ class Player{
     void Render(SDL_Renderer* renderer,int x,int y,Texture* temp);
     void Update(MoveDirections direction);
     void Go(SDL_Renderer* R);
-    void Player_Score_Update(int x);//No use yet
-    int Get_Player_Score();//NO use yet
+    void Player_Score_Update(long int x);//No use yet
+    long int Get_Player_Score();//NO use yet
     SDL_Rect Collider();
-    SDL_Point Player_Position();//No use yet
 
     void Update_Position();
     void Player_Events(SDL_Event* event);
+    void Player_Collides();
 
     bool Check_Player_Collision(const SDL_Point Other_Object_Collider);
     void set_NextPos(int x,int y);
@@ -41,9 +41,18 @@ class Player{
     SDL_Point Player_Curr_POsition;
     bool Player_has_cycle=false;
     SDL_Rect Player_collider;
+
+    int long Player_Score;
+    int long Player_Health_Points;
+    int collide_distance;
+
     private:
     MoveDirections direction;
-    int score;
+    int distance_after_food;
+    int distance_after_Hospital;
+    int distance_from_market;
+    int spceial_distance_ground ;
+    int special_distance_academic ;
 
     int arr_P[45][78]={
                         {1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,9,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
