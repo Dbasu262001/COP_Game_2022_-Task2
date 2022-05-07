@@ -37,7 +37,6 @@ G1->D2->Dog_Update(G1->renderer);
 G1->D3->Dog_Update(G1->renderer);
 G1->D4->Dog_Update(G1->renderer);
 G1->D5->Dog_Update(G1->renderer);
-
 SDL_RenderPresent(G1->renderer);
 while( !quit )
 			{
