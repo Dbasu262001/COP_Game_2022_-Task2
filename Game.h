@@ -13,6 +13,7 @@ class Game{
     bool Initialize_Game(const char* title,int xpos,int ypos, int width,int height);//
     void close_Game();//
     bool Load_Media();//
+    void Kill_Player(Player* P);
 
     bool Load_Media_One(const string filename,string key);//
     void Store_All_Tiles();

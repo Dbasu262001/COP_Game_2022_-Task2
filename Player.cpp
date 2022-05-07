@@ -6,11 +6,11 @@ direction=Stay_Still;
 Player::Player( Texture* texture){
 Player_Texture=texture;
 direction=Stay_Still;
+
 }
 
 
 Player::~Player(){
-Kill_Player();
 }
 
 void Player::Player_Cycle_Update(){
@@ -41,7 +41,7 @@ void Player::Render(SDL_Renderer* renderer,int x,int y,Texture* temp){
 
 
 void Player::Go(SDL_Renderer* Re){
-   Update(direction);
+  // Update(direction);
    Update_Position();
    Player_Cycle_Update();
    if(Player_has_cycle==true && distance < 50) distance=distance + 5;
@@ -108,12 +108,8 @@ void Player::set_NextPos(int x,int y){
 void Player::set_Curr_Pos(int x,int y){
     Player_Curr_POsition.x=x;
     Player_Curr_POsition.y=y;
+    Player_collider={Player_Curr_POsition.x,Player_Curr_POsition.y,20,20};
 }
-
-void Player::Kill_Player(){
-
-}
-
 void Player::Player_Score_Update(int x){
     this->score=this->score+x;
 
@@ -123,14 +119,8 @@ int Player::Get_Player_Score(){
 }
 
 SDL_Rect Player::Collider(){
-return this->collider;
+return this->Player_collider;
 }
-
-SDL_Point Player::Player_Position(){
-
-
-}
-   
 void Player::Player_Events(SDL_Event* event){
 
     if(event->type==SDL_KEYDOWN){
@@ -149,6 +139,17 @@ void Player::Player_Events(SDL_Event* event){
    
 }
 
-bool Check_Player_Collision(const SDL_Rect &Other_Collider){
-
+bool Player::Check_Player_Collision(const SDL_Point Other_Object_Collider){
+    if(Player_Curr_POsition.x > Other_Object_Collider.x + 20) 
+    {
+        return false;
+    }else if(Player_Curr_POsition.y > Other_Object_Collider.y + 20) {
+        return false;
+    }else if(Other_Object_Collider.x > Player_Curr_POsition.x + 20) {
+        return false;
+    }else if(Other_Object_Collider.y > Player_Curr_POsition.y + 20) { 
+        return false;
+    }else{
+    return true;
+    }
 }
