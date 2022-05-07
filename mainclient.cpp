@@ -26,10 +26,10 @@ G1->Load_Media();
 G1->Store_All_Tiles();
 G1->P1=new Player(G1->Texture_M->Get_Texture("Player_2"));
 
-G1->P1->set_Curr_Pos(150*8, 29*8);
+G1->P1->set_Curr_Pos(110*8, 28*8);
 G1->P1->Render(G1->renderer,G1->P1->Player_Curr_POsition.x,G1->P1->Player_Curr_POsition.y,G1->P1->Player_Texture);
 G1->D1=new Dog(G1->Texture_M->Get_Texture("Red"));
-G1->D1->Set_Dog_Curr_Position(20*8,29*20);
+G1->D1->Set_Dog_Curr_Position(21*8,29*20);
 G1->D1->Dog_Update(G1->renderer);
 SDL_RenderPresent(G1->renderer);
 
@@ -64,25 +64,10 @@ SDL_RenderPresent(G1->renderer);
 	}
 
 
-	string curr=to_string(G1->P1->Player_Curr_POsition.x)+"."+to_string(G1->P1->Player_Curr_POsition.y);
-
-	char* h= const_cast<char*>(curr.c_str());
-
-	send(sock, h, strlen(h), 0);
-	printf("Hello message sent\n");
-	valread = read(sock, buffer, 1024);
-	string mystr= buffer;
-	int position= mystr.find(".");
-	string xposstr= mystr.substr(0, position);
-	string yposstr= mystr.substr(position+1, mystr.length());
-	int xpos= stoi(xposstr);
-	int ypos= stoi(yposstr);
-	printf("%s\n", buffer);
-	return 0;
 
 G1->P2=new Player(G1->Texture_M->Get_Texture("Player_1"));
 G1->P2->set_Curr_Pos(80,80);
-G1->P2->Render(G1->renderer,xpos,ypos,G1->P2->Player_Texture);
+G1->P2->Render(G1->renderer,G1->P2->Player_Curr_POsition.x,G1->P2->Player_Curr_POsition.y,G1->P2->Player_Texture);
 
 
 	
@@ -126,7 +111,23 @@ G1->P2->Render(G1->renderer,xpos,ypos,G1->P2->Player_Texture);
 							G1->P1=NULL;
 					}	
 				}
-				G1->P2->Go(G1->renderer);
+	string curr=to_string(G1->P1->Player_Curr_POsition.x)+"."+to_string(G1->P1->Player_Curr_POsition.y);
+
+	char* h= const_cast<char*>(curr.c_str());
+
+	send(sock, h, strlen(h), 0);
+	printf("Hello message sent\n");
+	valread = read(sock, buffer, 1024);
+	string mystr= buffer;
+	int position= mystr.find(".");
+	string xposstr= mystr.substr(0, position);
+	string yposstr= mystr.substr(position+1, mystr.length());
+	int xpos= stoi(xposstr);
+	int ypos= stoi(yposstr);
+	printf("%s\n", buffer);
+	G1->P2->Player_Curr_POsition.x= xpos;
+	G1->P2->Player_Curr_POsition.y= ypos;
+					G1->P2->Go(G1->renderer);
 				SDL_RenderPresent( G1->renderer );
 				}
 				
