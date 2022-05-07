@@ -13,7 +13,7 @@ SDL_Event e;
 bool quit=false;
 G1->Load_Media();
 G1->Store_All_Tiles();
-G1->P1=new Player(G1->Texture_M->Get_Texture("Blue"));
+G1->P1=new Player(G1->Texture_M->Get_Texture("Player_1"));
 
 G1->P1->set_Curr_Pos(80,80);
 G1->P1->Render(G1->renderer,G1->P1->Player_Curr_POsition.x,G1->P1->Player_Curr_POsition.y,G1->P1->Player_Texture);
