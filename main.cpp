@@ -19,7 +19,19 @@ G1->P1->set_Curr_Pos(80,80);
 G1->P1->Render(G1->renderer,G1->P1->Player_Curr_POsition.x,G1->P1->Player_Curr_POsition.y,G1->P1->Player_Texture);
 G1->D1=new Dog(G1->Texture_M->Get_Texture("Red"));
 G1->D1->Set_Dog_Curr_Position(20*8,29*20);
+
+//Set do position
 G1->D1->Dog_Update(G1->renderer);
+G1->D2=new Dog(G1->Texture_M->Get_Texture("Red"));
+G1->D3=new Dog(G1->Texture_M->Get_Texture("Red"));
+G1->D4=new Dog(G1->Texture_M->Get_Texture("Red"));
+
+
+
+G1->D2->Dog_Update(G1->renderer);
+G1->D3->Dog_Update(G1->renderer);
+G1->D4->Dog_Update(G1->renderer);
+
 SDL_RenderPresent(G1->renderer);
 while( !quit )
 			{
@@ -47,7 +59,7 @@ while( !quit )
 						    G1->D1->Set_Dog_Nextdirection(&e);
 							if(G1->P1!=NULL){
 								G1->P1->Player_Events(&e);
-						
+								cout<<"Player_Score"<<G1->P1->Get_Player_Score()<<" Player Health "<<G1->P1->Player_Health_Points<<endl;
 					   		}
 					   }
 					
@@ -56,10 +68,12 @@ while( !quit )
 				G1->D1->Dog_Update(G1->renderer);
 				if(G1->P1 !=NULL){
 					G1->P1->Go(G1->renderer);
-					cout<<G1->P1->Check_Player_Collision(G1->D1->Dog_Curr_Position)<<endl;
 					if(G1->P1->Check_Player_Collision(G1->D1->Dog_Curr_Position)==true){
-							G1->P1=NULL;
-					}	
+							G1->P1->Player_Collides();
+					}
+					if(G1->P1->Player_Health_Points < 500){
+						G1->P1 =NULL;
+					}
 				}
 				SDL_RenderPresent( G1->renderer );
 				}
