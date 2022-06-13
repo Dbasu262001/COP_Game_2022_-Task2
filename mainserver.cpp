@@ -15,6 +15,7 @@ Game* G1=new Game();
 
 
 int main(){
+int Score_temp = 0 ;
 
 bool Init=G1->Initialize_Game("SDL_Game",SDL_WINDOWPOS_UNDEFINED,SDL_WINDOWPOS_UNDEFINED,1560,900);
 
@@ -121,8 +122,8 @@ G1->P2->Render(G1->renderer,G1->P2->Player_Curr_POsition.x,G1->P2->Player_Curr_P
 						quit = true;
                         break;
 					}else {
-				SDL_RenderClear(G1->renderer);
-                G1->Generate_Map();
+					SDL_RenderClear(G1->renderer);
+                	G1->Generate_Map();
 
 	                       if(e.type==SDL_KEYDOWN && G1->P1!=NULL){
 						    G1->D1->Set_Dog_Nextdirection_A(&e);
@@ -152,6 +153,7 @@ G1->P2->Render(G1->renderer,G1->P2->Player_Curr_POsition.x,G1->P2->Player_Curr_P
 					|| G1->P1->Check_Player_Collision(G1->D5->Dog_Curr_Position)==true){
 							G1->P1->Player_Collides();
 					}
+					Score_temp = G1->P1->Player_Score + (G1->P1->Player_Health_Points/4);
 					if(G1->P1->Player_Health_Points < 500){
 						G1->P1 =NULL;
 					}
@@ -162,13 +164,25 @@ G1->P2->Render(G1->renderer,G1->P2->Player_Curr_POsition.x,G1->P2->Player_Curr_P
 	valread = read(new_socket, buffer, 1024);
 	string mystr= buffer;
 	int position= mystr.find(".");
+	int position_2=mystr.find("#");
+	int sc_pos=mystr.find("@");
 	string xposstr= mystr.substr(0, position);
-	string yposstr= mystr.substr(position+1, mystr.length());
+	string yposstr= mystr.substr(position+1, position_2);
+	string player2=mystr.substr(position_2+1,sc_pos);
+	int score_P2 = stoi(mystr.substr(sc_pos+1,mystr.length()));
+
 	int xpos= stoi(xposstr);
 	int ypos= stoi(yposstr);
+	G1->P2->Player_Curr_POsition.x= xpos;
+	G1->P2->Player_Curr_POsition.y= ypos;
+	int player2_alive=stoi(player2);
 
+	int player1_alive = 1;
+				if(G1->P1==NULL){
+					player1_alive=0;
+				}
+	string curr=to_string(G1->P1->Player_Curr_POsition.x)+"."+ to_string(G1->P1->Player_Curr_POsition.y )+ "#"+to_string(player1_alive)+ "@" + to_string(Score_temp);
 
-	string curr=to_string(G1->P1->Player_Curr_POsition.x)+"."+to_string(G1->P1->Player_Curr_POsition.y);
 
 	char* h= const_cast<char*>(curr.c_str());
 
@@ -176,11 +190,41 @@ G1->P2->Render(G1->renderer,G1->P2->Player_Curr_POsition.x,G1->P2->Player_Curr_P
 	send(new_socket, h, strlen(h), 0);
 	printf("Hello message sent\n");
 
-	G1->P2->Player_Curr_POsition.x= xpos;
-	G1->P2->Player_Curr_POsition.y= ypos;
+	if(player2_alive==0){
+					cout<<"Player2_is dead";
+					quit =true;
+					if(score_P2 > Score_temp){
+						cout<<"Your opponent has won the match with score" <<score_P2<<endl; 
+					}else if(Score_temp > score_P2){
+						cout<<" You has won the match with score" <<Score_temp<<endl; 
+
+					}else{
+						cout<<"Match is draw with score "<<Score_temp<<endl;
+					}
+					break;
+
+				}
+	if(G1->P1==NULL){
+		cout<<"You are  dead";
+					quit =true;
+					if(score_P2 > Score_temp){
+						cout<<"Your opponent has won the match with score" <<score_P2<<endl; 
+					}else if(Score_temp > score_P2){
+						cout<<"You have won the match with score" <<Score_temp<<endl; 
+
+					}else{
+						cout<<"Match is draw with score "<<Score_temp<<endl;
+					}
+					break;
+
+		
+	}
+
+
+				G1->P1->Go(G1->renderer);
 				G1->P2->Go(G1->renderer);
 				SDL_RenderPresent( G1->renderer );
-				}
+			}
 				
 				
 
